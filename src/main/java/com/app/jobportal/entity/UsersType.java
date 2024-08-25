@@ -15,11 +15,11 @@ import java.util.List;
 public class UsersType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userTypeId;
 
     private String userTypeName;
 
-    @OneToMany(targetEntity = UsersType.class,mappedBy = "userTypeId",cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Users.class,mappedBy = "userTypeId",cascade = CascadeType.ALL)
     private List<Users> users;
 }
