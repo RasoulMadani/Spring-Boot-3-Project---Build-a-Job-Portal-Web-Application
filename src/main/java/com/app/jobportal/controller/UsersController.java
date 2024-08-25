@@ -2,6 +2,7 @@ package com.app.jobportal.controller;
 
 import com.app.jobportal.entity.Users;
 import com.app.jobportal.entity.UsersType;
+import com.app.jobportal.services.UsersService;
 import com.app.jobportal.services.UsersTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsersController {
     private final UsersTypeService usersTypeService;
+    private final UsersService usersService;
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -26,7 +28,7 @@ public class UsersController {
     }
     @PostMapping("/register/new")
     public String usersRegistration(@Valid Users users){
-        System.out.println("user" + users) ;
+        usersService.addNew(users);
         return "dashboard";
     }
 

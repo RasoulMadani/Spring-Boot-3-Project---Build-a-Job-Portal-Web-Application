@@ -23,7 +23,8 @@ public class Users {
     @NotEmpty
     private String password;
 
-    private boolean isActive;
+    private Boolean isActive = true;
+
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date registrationDate;
     @ManyToOne(cascade = CascadeType.ALL)
