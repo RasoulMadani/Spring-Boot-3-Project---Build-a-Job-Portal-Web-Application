@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,5 +16,8 @@ public class UsersService {
         users.setIsActive(Boolean.TRUE);
         users.setRegistrationDate(new Date(System.currentTimeMillis()));
         return usersRepository.save(users);
+    }
+    public Optional<Users> getUserByEmail(String email){
+        return usersRepository.findByEmail(email);
     }
 }
