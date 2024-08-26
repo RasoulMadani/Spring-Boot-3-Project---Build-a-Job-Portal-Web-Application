@@ -1,6 +1,10 @@
 package com.app.jobportal.services;
 
+import com.app.jobportal.entity.JobSeekerProfile;
+import com.app.jobportal.entity.RecruiterProfile;
 import com.app.jobportal.entity.Users;
+import com.app.jobportal.repository.JobSeekerProfileRepository;
+import com.app.jobportal.repository.RecruiterProfileRepository;
 import com.app.jobportal.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,10 +16,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsersService {
     private final UsersRepository usersRepository;
+    private final JobSeekerProfileRepository jobSeekerProfileRepository;
+    private final RecruiterProfileRepository recruiterProfileRepository;
+
     public Users addNew(Users users){
         users.setIsActive(Boolean.TRUE);
         users.setRegistrationDate(new Date(System.currentTimeMillis()));
-        return usersRepository.save(users);
+        Users saveUser = usersRepository.save(users);
+        int userTypeId = users.getUserTypeId().getUserTypeId();
+
+        if(userTypeId == 1){
+            recruiterProfileRepository.save(new RecruiterProfile(saveUser));
+        }else {
+            jobSeekerProfileRepository.save(new JobSeekerProfile(saveUser));
+        }
+        return saveUser;
     }
     public Optional<Users> getUserByEmail(String email){
         return usersRepository.findByEmail(email);
