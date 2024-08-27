@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final String[] publicUrl = {"/",
             "/global-search/**",
             "/register",
@@ -38,6 +39,10 @@ public class WebSecurityConfig {
             auth.requestMatchers(publicUrl).permitAll();
             auth.anyRequest().authenticated();
         });
+
+        httpSecurity.formLogin(form->form.loginPage("/login").permitAll()
+                .successHandler(customAuthenticationSuccessHandler));
+
         return httpSecurity.build();
     }
     @Bean
