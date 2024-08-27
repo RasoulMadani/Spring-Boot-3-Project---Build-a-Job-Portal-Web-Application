@@ -41,7 +41,11 @@ public class WebSecurityConfig {
         });
 
         httpSecurity.formLogin(form->form.loginPage("/login").permitAll()
-                .successHandler(customAuthenticationSuccessHandler));
+                .successHandler(customAuthenticationSuccessHandler))
+                .logout(logout->{
+                    logout.logoutUrl("/logout");
+                    logout.logoutSuccessUrl("/");
+                });
 
         return httpSecurity.build();
     }
