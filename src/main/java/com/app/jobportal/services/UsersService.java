@@ -7,6 +7,7 @@ import com.app.jobportal.repository.JobSeekerProfileRepository;
 import com.app.jobportal.repository.RecruiterProfileRepository;
 import com.app.jobportal.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,10 +19,12 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final JobSeekerProfileRepository jobSeekerProfileRepository;
     private final RecruiterProfileRepository recruiterProfileRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Users addNew(Users users){
         users.setIsActive(Boolean.TRUE);
         users.setRegistrationDate(new Date(System.currentTimeMillis()));
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
         Users saveUser = usersRepository.save(users);
         int userTypeId = users.getUserTypeId().getUserTypeId();
 
