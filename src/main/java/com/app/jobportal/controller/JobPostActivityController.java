@@ -17,7 +17,7 @@ public class JobPostActivityController {
     public String searchJobs(Model model){
         Object currentUserProfile = usersService.getCurrentUserProfile();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
+
         if(!(authentication instanceof AnonymousAuthenticationToken)){
             String currentUsername = authentication.getName();
             model.addAttribute("username",currentUsername);
