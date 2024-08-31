@@ -4,8 +4,13 @@ import com.app.jobportal.entity.Users;
 import com.app.jobportal.entity.UsersType;
 import com.app.jobportal.services.UsersService;
 import com.app.jobportal.services.UsersTypeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +32,12 @@ public class UsersController {
         model.addAttribute("user", new Users());
         return "register";
     }
+
     @PostMapping("/register/new")
-    public String usersRegistration(@Valid Users users,Model model){
+    public String usersRegistration(@Valid Users users, Model model) {
         Optional<Users> userByEmail = usersService.getUserByEmail(users.getEmail());
-        if(userByEmail.isPresent()){
-            model.addAttribute("error","Email already registered, try to login or register with other email .");
+        if (userByEmail.isPresent()) {
+            model.addAttribute("error", "Email already registered, try to login or register with other email .");
             List<UsersType> all = usersTypeService.getAll();
             model.addAttribute("getAllTypes", all);
             model.addAttribute("user", new Users());
@@ -39,6 +45,21 @@ public class UsersController {
         }
         usersService.addNew(users);
         return "dashboard";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler()
+                    .logout(request, response, authentication);
+        }
+        return "redirect:/";
     }
 
 }

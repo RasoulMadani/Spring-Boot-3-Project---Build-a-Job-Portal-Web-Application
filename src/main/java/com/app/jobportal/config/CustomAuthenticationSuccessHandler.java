@@ -16,7 +16,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserDetails userDetails =(UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();
-        System.out.println("The username" + username + "is logged in.");
+        System.out.println("The username " + username + " is logged in.");
         boolean hasJobSeekerRole = authentication.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Job Seeker"));
 

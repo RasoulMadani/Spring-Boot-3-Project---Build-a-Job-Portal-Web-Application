@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class JobPostActivityController {
     private final UsersService usersService;
-    @GetMapping("/dashboard")
+    @GetMapping("/dashboard/")
     public String searchJobs(Model model){
         Object currentUserProfile = usersService.getCurrentUserProfile();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
